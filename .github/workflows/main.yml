@@ -28,7 +28,6 @@ jobs:
         SECRET_PASSPHRASE: ${{ secrets.SECRET_PASSPHRASE }}
     - name: Build iOS
       run: |
-        mkdir $HOME/secrets
         gpg --quiet --batch --yes --decrypt --passphrase="$SECRET_PASSPHRASE" \
         --output $HOME/secrets/secrets.tar secrets.tar.gpg
         tar xvf $HOME/secrets/secrets.tar
