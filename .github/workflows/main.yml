@@ -26,21 +26,21 @@ jobs:
         flutter build apk
       env:
         SECRET_PASSPHRASE: ${{ secrets.SECRET_PASSPHRASE }}
-    # - name: Build iOS
-    #   run: |
-    #     mkdir $HOME/secrets
-    #     gpg --quiet --batch --yes --decrypt --passphrase="$SECRET_PASSPHRASE" \
-    #     --output $HOME/secrets/secrets.tar secrets.tar.gpg
-    #     tar xvf $HOME/secrets/secrets.tar
-    #     flutter build ios --no-codesign
-    #     cd build/ios/iphoneos
-    #     mkdir Payload
-    #     cd Payload
-    #     ln -s ../Runner.app
-    #     cd ..
-    #     zip -r app.ipa Payload
-    #   env:
-    #     SECRET_PASSPHRASE: ${{ secrets.SECRET_PASSPHRASE }}
+    - name: Build iOS
+      run: |
+        mkdir $HOME/secrets
+        gpg --quiet --batch --yes --decrypt --passphrase="$SECRET_PASSPHRASE" \
+        --output $HOME/secrets/secrets.tar secrets.tar.gpg
+        tar xvf $HOME/secrets/secrets.tar
+        flutter build ios --no-codesign
+        cd build/ios/iphoneos
+        mkdir Payload
+        cd Payload
+        ln -s ../Runner.app
+        cd ..
+        zip -r app.ipa Payload
+      env:
+        SECRET_PASSPHRASE: ${{ secrets.SECRET_PASSPHRASE }}
     - name: Deploy
       if: (github.base_ref == 'master' && github.event_name == 'pull_request')
       uses: wzieba/Firebase-Distribution-Github-Action@v1.2.1
