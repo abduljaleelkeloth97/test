@@ -39,7 +39,7 @@ jobs:
         #     zip -r app.ipa Payload
         #   env:
         #     SECRET_PASSPHRASE: ${{ secrets.SECRET_PASSPHRASE }}
-        uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v2
         with:
           name: app-release
           path: app-release.apk
