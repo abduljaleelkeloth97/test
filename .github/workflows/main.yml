@@ -2,8 +2,8 @@ name: CI/CD
 on: [pull_request, push]
 
 jobs:
-  build_and_deploy:
-    name: Build and Deploy
+  build:
+    name: Build
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -43,17 +43,8 @@ jobs:
         with:
           name: app-release.apk
           path: build/app/outputs/apk/release/app-release.apk
-    # - name: Deploy
-    #   if: (github.base_ref == 'master' && github.event_name == 'pull_request')
-    #   uses: wzieba/Firebase-Distribution-Github-Action@v1.2.2
-    #   with:
-    #     appId: ${{secrets.FIREBASE_ANDROID_APPID}}
-    #     token: ${{secrets.FIREBASE_TOKEN}}
-    #     groups: testing
-    #     release_notes: "a new version"
-    #     file: build/app/outputs/apk/release/app-release.apk
-  deploy_app:
-    needs: build_and_deploy
+  deploy:
+    needs: build
     name: Deploy app
     runs-on: ubuntu-latest
     steps:
@@ -67,6 +58,6 @@ jobs:
         with:
           appId: ${{secrets.FIREBASE_ANDROID_APPID}}
           token: ${{secrets.FIREBASE_TOKEN}}
-          groups: testing
-          release_notes: "a new version"
+          groups: Testing
+          releaseNotes: "a new version"
           file: /home/runner/work/test/test/app-release.apk
